@@ -128,7 +128,7 @@ while True:
       text_out(f"\n        INCOME FILE DETECTED - {filename} ")
       print("")
       response=input(f"     [ x ] :: Do you want to accept {filename}?  [y/n]   ::  ")
-      if response=='y' || response=='Y':
+      if response=='y' or response=='Y':
           file_path=input("     Where should the file be saved? \n     Default is Present Directory:: ")
           if(file_path==""):
              os.system(f"echo '{contents}' > {filename}")
