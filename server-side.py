@@ -43,7 +43,7 @@ class file:
        return contents
 
 
-host=input("Enter Your server Name:: ")
+host=input("Enter Your server Address:: ")
 if host=="":
     host="localhost"
     text_out("Default:: localhost")
@@ -84,7 +84,6 @@ while True:
        print("bit file received")
        
     if type(received) is str:
-     print("normal file received")
      compare=int(received.find("<_SEPARATOR_>"))
      if(compare>=0):
       contents,filename=file.separate(received)
@@ -125,7 +124,9 @@ while True:
     else:
       prin  
       
-      
+    print("/n")
+    print("********************************************")
+    print("/n")  
     # SENDING 
     message=input("MESSAGE to CLIENT:: ")
     message=f'''{message}'''
@@ -163,6 +164,6 @@ while True:
     
     
 conn.close()
-text_out("   [ 200 ] :: The server turned off successfully!!")
+text_out("  [ 200 ] :: The server turned off successfully!!")
 print("")
 server.close()
