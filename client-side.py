@@ -107,6 +107,9 @@ while True:
           break 
     client.send(message.encode())
     
+    print("/n")
+    print("**************************************")
+    print("/n")
     
     # RECEIVING 
     data=client.recv(bufferSize).decode()
@@ -127,7 +130,7 @@ while True:
       contents,filename=file.separate(received)     
       text_out(f"\n        INCOME FILE DETECTED - {filename} ")
       print("")
-      response=input(f"     [ x ] :: Do you want to accept {filename}?  [y/n]   ::  ")
+      response=input(f"     [ x ] Accepting {filename}? [y/n] ::  ")
       if response=='y' or response=='Y':
           file_path=input("     Where should the file be saved? \n     Default is Present Directory:: ")
           if(file_path==""):
