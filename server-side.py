@@ -38,7 +38,7 @@ class file:
        if extension in all:
            return ''
        else:
-           f=open(file_dir,"rt")\
+           f=open(file_dir,"rt")
            contents=f.read()
        return contents
 
@@ -145,7 +145,7 @@ while True:
               text_out("     [ 403 ] :: The type of the file you want to send is forbidden!!")
               print('')
               conn.send("STOPPED".encode())
-              break()
+              break
           message=file.compress(contents,extension)
        except:
           #using this in debug mode
