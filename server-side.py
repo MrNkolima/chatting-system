@@ -60,7 +60,7 @@ server.bind((host,port))
 
 text_out("Waiting  connections from clients...")
 
-server.listen(2)
+server.listen(1)
 conn, addrs=server.accept()
 os.system("clear")
 text_out(f"A server connected to {addrs}")
