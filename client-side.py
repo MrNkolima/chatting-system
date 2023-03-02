@@ -9,15 +9,27 @@ def text_out(text: str) -> None:
         sys.stdout.flush()
         time.sleep(0.1)
 
-host=input("Write a Server address:: ")
+print("     [ ] CLIENT CONFIGURATIONS -")
+host=input("   [ server address ] ::  ")
 if host=="":
    host="localhost"
-   text_out("Default:: localhost")
+   text_out("   [ default ] :: localhost")
    print("")
 else:
    pass
 
-port=5050
+while True:
+    portStr=input("   [ port number 1000-9999 ] ::  ")
+    try: 
+        port = int(portStr)   
+    except:
+       port = 12345678
+    if (type(port) is int) and (port>=1000 and port<=9999):
+       break
+    else:
+       text_out("   [ invalid ] ::  invalid port!!\n")
+       print("")
+
 bufferSize=1048576
 
 
@@ -70,16 +82,16 @@ class file:
  
 os.system("clear")
 print("\n\n")
-text_out("        CHAT WITH THE SERVER NOW !!!! ")
+text_out("    [ chat ] :: CHAT WITH THE SERVER NOW ! ")
 print("")
 
 
-
+print("\n")
 # Main loop
 while True:
   try:
     # SENDING 
-    message=input("MESSAGE TO SERVER:: ")
+    message=input(" [ You ]::  ")
     message=f'''{message}'''
     if(message=="file"):
      # When user wants to send the files
@@ -107,13 +119,9 @@ while True:
           break 
     client.send(message.encode())
     
-    print("/n")
-    print("**************************************")
-    print("/n")
-    
     # RECEIVING 
     data=client.recv(bufferSize).decode()
-    text_out("MESSAGE FROM SERVER:: ")
+    text_out(" [ server ]::  ")
     # Always convert all responses to strings
     received=str(data)
 
@@ -128,18 +136,18 @@ while True:
     compare=int(received.find("<_SEPARATOR_>"))
     if(compare>=0):
       contents,filename=file.separate(received)     
-      text_out(f"\n        INCOME FILE DETECTED - {filename} ")
+      text_out(f"\n        [ incoming... ] :: INCOME FILE DETECTED - {filename} ")
       print("")
       response=input(f"     [ x ] Accepting {filename}? [y/n] ::  ")
       if response=='y' or response=='Y':
-          file_path=input("     Where should the file be saved? \n     Default is Present Directory:: ")
+          file_path=input("     [ directory ] :: Where should the file be saved? \n     [ default ] :: Present Directory:: ")
           if(file_path==""):
              os.system(f"echo '{contents}' > {filename}")
-             text_out("    File received at the current directory!!")
+             text_out("    [ received ] ::  current directory!!")
              print("")
           else:
              os.system(f"cd {file_path} && echo '{contents}' > {filename}")
-             text_out(f"     {filename} saved! ")
+             text_out(f"     [ saved ] :: {filename} saved! ")
              print("")
       else:
           print("")

@@ -42,68 +42,75 @@ class file:
            contents=f.read()
        return contents
 
-
-host=input("Enter Your server Address:: ")
+print("\n     [ ]  SERVER CONFIGURATIONS - ")
+host=input("   [#] - Enter Your server Address::  ")
 if host=="":
     host="localhost"
-    text_out("Default:: localhost")
+    text_out("   [ Default ] :: localhost")
     print("")
 else:
     pass
 
-port=5050
+
+while True:
+    portStr=input("   [#] - Port Number (1000-9999):: ")
+    try:
+       port = int(portStr)
+    except:
+       port = 12345678
+    if (type(port) is int) and (port>=1000 and port<=9999):
+       break
+    else:
+       text_out("   [ Error ] :: invalid port!!\n")
+       print("\n")
+
 bufferSize=1048576
 
 
 server=socket.socket()
 server.bind((host,port))
 
-text_out("Waiting  connections from clients...")
+text_out("   [ Waiting... ] ::   connections from clients...")
 
-server.listen(1)
+server.listen(2)
 conn, addrs=server.accept()
 os.system("clear")
-text_out(f"A server connected to {addrs}")
+text_out(f"   [ connected ] :: server connected to {addrs[0]} at {addrs[1]}")
 print("")
 
 print("\n\n")
-text_out("         WAITING A MESSAGE FROM THE CLIENT !!!")
+text_out("    [ chat ] ::  A MESSAGE FROM THE CLIENT !!!")
 print("")
 
+print("\n")
 while True:
   try:
     # RECEIVING 
     data=conn.recv(bufferSize).decode()
-    text_out("MESSAGE FROM CLIENT: ")
+    text_out("[ client ]:: ")
     received=str(data)
     if(received=="STOPPED"):
-       text_out("\n        It seems client has some problem\n         connecting....")
+       text_out("\n    [ problem ] ::  client has some problems!! ")
        print("")
-       break
-    elif type(received) is bytes:
-       print("bit file received")
-       
+       break       
     if type(received) is str:
      compare=int(received.find("<_SEPARATOR_>"))
      if(compare>=0):
       contents,filename=file.separate(received)
-      text_out(f"\n        THE FILE HAS BEEN RECEIVED - {filename} ")
+      text_out(f"\n        [ received ] ::  - {filename} ")
       print("")
-      file_path=input("     Where should the file be saved? \n     Default is Present Directory:: ")
+      file_path=input("    [ directory ] ::  Where should the file be saved? \n     [ default ] ::  Present Directory:: ")
       if(file_path==""):
          try:
-             print(f"Trying openfile...{filename}")
              f=open(filename,"w")
-             print("File opened (new) but contents not written")
              f.write(f'''{contents}''')
-             print("File is written but problem is that it didn't close")
              f.close()
          except:
              conn.send("STOPPED".encode())
-             text_out("   Error receiving file from client :: Present Directory!!")
+             text_out("   [ error ] ::  Receiving the file from client")
              print("")
              break
-         text_out("    File received at the current directory!!")
+         text_out("    [ received ] ::   current directory!!")
          print("")
       else:
          full=filepath+filename
@@ -113,22 +120,22 @@ while True:
              f.close()
          except:
              conn.send("STOPPED".encode())
-             text_out(f"   Error receiving file from client :: at {full}!!")
+             text_out(f"   [ error ] :: receiving file from client :: at {full}!!")
              print("")
              break
-         text_out(f"     {filename} saved! ")
+         text_out(f"     {filename} successfully saved!! ")
          print("")
      else:
       text_out(received)
       print("")
     else:
-      prin  
-      
-    print("/n")
-    print("********************************************")
-    print("/n")  
+       text_out(" [ 403 ]: A non-text file received!!")
+       print("")
+       break
+  
+
     # SENDING 
-    message=input("MESSAGE to CLIENT:: ")
+    message=input("[ You ]:: ")
     message=f'''{message}'''
     if(message=="quit" or message=="q"):
         conn.send("STOPPED".encode())
@@ -151,7 +158,7 @@ while True:
        except:
           #using this in debug mode
           conn.send("STOPPED".encode())
-          text_out("No such File or Directory!!")
+          text_out("   [ doesn't Exist ] :: No such File or Directory!!")
           print("")                                        
           break
     
